@@ -1,7 +1,5 @@
-let canvas = document.getElementById("image");
-
 // ---------- function given by developer.mozilla.org on FileReader API ---------------
-function previewFile() {
+function previewFileAsText() {
   const content = document.querySelector(".content");
   const [file] = document.querySelector("input[type=file]").files;
   const reader = new FileReader();
