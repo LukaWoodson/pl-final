@@ -20,6 +20,11 @@ function previewFileAsText() {
 }
 
 function parseFile(fileText) {
+  let result = fileText.split(/#.*|\s+/g).filter((text) => text !== "");
+  console.log(result);
+}
+
+function parseFileOLD(fileText) {
   // save an object split on every new line
   let result = fileText.trim().replaceAll("\r", "").split("\n");
   let data = {
@@ -35,6 +40,7 @@ function parseFile(fileText) {
   for (let i of result) {
     // remove anything in the string after # so all comments are removed
     let substring = i.split(/#.*$/);
+    console.log(substring);
     for (let index of substring) {
       if (index !== "") {
         // push the parsed information onto the rows array
