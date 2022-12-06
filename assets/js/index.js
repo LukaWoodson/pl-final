@@ -15,8 +15,8 @@ canvas.addEventListener("click", (e) => {
   const { row, column } = handlePixelClick(e);
   rowIndexInput.value = row;
   colIndexInput.value = column;
-  const hexColor = image.getPixel(row, column).getHex();
-  colorPicker.value = hexColor;
+  colorPicker.value = image.getPixel(row, column).getHex();
+  positionSelectedRect(row, column);
 });
 
 colorPicker.addEventListener("change", (e) => {
@@ -39,6 +39,7 @@ function previewFileAsText() {
       canvas.width = image.getWidth();
       canvas.height = image.getHeight();
       draw(context, image);
+      positionSelectedRect(0, 0);
     },
     false
   );
@@ -55,6 +56,13 @@ function draw(context, image) {
     canvas.height
   );
   context.putImageData(imageData, 0, 0);
+}
+
+function positionSelectedRect(row, col) {
+  const boundingRect = document.getElementById("selected-pixel");
+  boundingRect.style.width = `${100 / image.getWidth()}%`;
+  boundingRect.style.height = `${100 / image.getHeight()}%`;
+  boundingRect.style.transform = `translate(${col * 100}%, ${row * 100}%)`;
 }
 
 function handlePixelClick(event) {

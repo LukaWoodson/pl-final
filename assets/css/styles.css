@@ -24,23 +24,22 @@ input {
 
 div {
 	display: flex;
-	align-self: flex-start;
-	margin: auto 4vw;
 	align-items: center;
-	width: 100%;
-}
-
-p {
-	height: 60vh;
-	width: 46vw;
-	overflow: auto;
-	background-color: lightblue;
-	padding: 1vh 2vw;
+	width: 50vw;
+	height: fit-content;
+	position: relative;
 }
 
 canvas {
 	background-color: moccasin;
 	image-rendering: pixelated;
 	outline: firebrick 1px solid;
-	width: 80%;
+	width: 100%;
+}
+
+#selected-pixel {
+	position: absolute;
+	top: 0;
+	left: 0;
+	outline: dimgrey 3px solid;
 }
