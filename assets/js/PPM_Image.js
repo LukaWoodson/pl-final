@@ -45,6 +45,11 @@ class PPM_Image {
     return this.#pixelArrays[row].getRow()[col];
   }
 
+  updatePixelXY(row, col, pixel) {
+    console.log(this.#pixelArrays[row].getRow()[col]);
+    this.#pixelArrays[row].getRow()[col].set(pixel.getColor());
+  }
+
   toUint8ClampedArray() {
     const array = [];
     const WHITE = 255;
