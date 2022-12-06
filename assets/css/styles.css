@@ -40,4 +40,6 @@ p {
 
 canvas {
 	background-color: moccasin;
+	image-rendering: pixelated;
+	outline: firebrick 1px solid;
 }

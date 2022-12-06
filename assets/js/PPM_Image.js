@@ -1,3 +1,6 @@
+import PixelArray from "./PixelArray.js";
+import Pixel from "./Pixel.js";
+
 class PPM_Image {
   #fileType = "";
   #width = 0;
@@ -13,23 +16,44 @@ class PPM_Image {
     this.#height = textData[2];
     this.#maxColorVal = textData[3];
 
-    console.log(textData);
+    for (let i = 4; i < textData.length; i += this.#width * 3) {
+      const pixelArray = new PixelArray();
+      for (let j = i; j < this.#width * 3 + i; j += 3) {
+        const r = parseInt(textData[j]);
+        const g = parseInt(textData[j + 1]);
+        const b = parseInt(textData[j + 2]);
+        const pixel = new Pixel(r, g, b);
+        pixelArray.push(pixel);
+      }
+      this.#pixelArrays.push(pixelArray);
+    }
   }
 
   static removeCommentsAndWhiteSpace(text) {
     return text.split(/#.*|\s+/g).filter((text) => text !== "");
   }
 
-  pushRow(row) {
-    this.#pixelArrays.push(row);
+  getWidth() {
+    return this.#width;
   }
 
-  getImage() {
-    return this.#pixelArrays;
+  getHeight() {
+    return this.#height;
   }
 
-  setImage(image) {
-    this.#pixelArrays = image.map((image) => image);
+  toUint8ClampedArray() {
+    const array = [];
+    const WHITE = 255;
+    this.#pixelArrays.forEach((pixelArray) => {
+      pixelArray.getRow().forEach((pixel) => {
+        const { r, g, b } = pixel.getColor();
+        array.push(r);
+        array.push(g);
+        array.push(b);
+        array.push(WHITE);
+      });
+    });
+    return new Uint8ClampedArray(array);
   }
 }
 

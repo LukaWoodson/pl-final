@@ -15,3 +15,5 @@ class PixelArray {
     this.#row = row.map((row) => row);
   }
 }
+
+export default PixelArray;
