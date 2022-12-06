@@ -41,6 +41,10 @@ class PPM_Image {
     return this.#height;
   }
 
+  getPixel(row, col) {
+    return this.#pixelArrays[row].getRow()[col];
+  }
+
   toUint8ClampedArray() {
     const array = [];
     const WHITE = 255;

@@ -31,7 +31,7 @@ div {
 }
 
 p {
-	height: 80vh;
+	height: 60vh;
 	width: 46vw;
 	overflow: auto;
 	background-color: lightblue;
@@ -42,4 +42,5 @@ canvas {
 	background-color: moccasin;
 	image-rendering: pixelated;
 	outline: firebrick 1px solid;
+	width: 100%;
 }
