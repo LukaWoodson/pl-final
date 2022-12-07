@@ -1,75 +1,65 @@
 import PPM_Image from "./PPM_Image.js";
 import Pixel from "./Pixel.js";
+import selectedPixel from "./selectedPixel.js";
 
 // ---------- function given by developer.mozilla.org on FileReader API (modified)---------------
 const input = document.querySelector("input[type=file]");
-input.addEventListener("change", previewFileAsText);
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 const colorPicker = document.querySelector("input[type=color]");
-const rowIndexInput = document.getElementById("row-index");
-const colIndexInput = document.getElementById("col-index");
 let image = null;
 
+input.addEventListener("change", handleFile);
+
 canvas.addEventListener("click", (e) => {
-  const { row, column } = handlePixelClick(e);
-  rowIndexInput.value = row;
-  colIndexInput.value = column;
-  colorPicker.value = image.getPixel(row, column).getHex();
-  positionSelectedRect(row, column);
+	const {row, column} = handlePixelClick(e);
+	selectedPixel.updatePosition(row, column);
+	colorPicker.value = image.getPixel(row, column).getHex();
 });
 
 colorPicker.addEventListener("change", (e) => {
-  const { value: row } = rowIndexInput;
-  const { value: col } = colIndexInput;
-  image.updatePixelXY(row, col, Pixel.hexToRgb(e.target.value));
-  draw(context, image);
+	const {row, column} = selectedPixel.getPosition();
+	image.updatePixelXY(row, column, Pixel.hexToRgb(e.target.value));
+	draw(context, image);
 });
 
-function previewFileAsText() {
-  let [file] = input.files;
-  const reader = new FileReader();
-
-  reader.addEventListener(
-    "load",
-    () => {
-      // this will then display a text file
-      image = new PPM_Image(reader.result);
-
-      canvas.width = image.getWidth();
-      canvas.height = image.getHeight();
-      draw(context, image);
-      positionSelectedRect(0, 0);
-    },
-    false
-  );
-
-  if (file) {
-    reader.readAsText(file);
-  }
+function handleFile() {
+	const [file] = input.files;
+	const reader = new FileReader();
+	
+	reader.addEventListener(
+		"load",
+		() => {
+			// this will then display a text file
+			image = new PPM_Image(reader.result);
+			canvas.width = image.getWidth();
+			canvas.height = image.getHeight();
+			selectedPixel.setDimensions(canvas.width, canvas.height);
+			draw(context, image);
+			selectedPixel.updatePosition(0, 0);
+		},
+		false
+	);
+	
+	if (file) {
+		reader.readAsText(file);
+	}
 }
 
 function draw(context, image) {
-  const imageData = new ImageData(
-    image.toUint8ClampedArray(),
-    canvas.width,
-    canvas.height
-  );
-  context.putImageData(imageData, 0, 0);
-}
-
-function positionSelectedRect(row, col) {
-  const boundingRect = document.getElementById("selected-pixel");
-  boundingRect.style.width = `${100 / image.getWidth()}%`;
-  boundingRect.style.height = `${100 / image.getHeight()}%`;
-  boundingRect.style.transform = `translate(${col * 100}%, ${row * 100}%)`;
+	const imageData = new ImageData(
+		image.toUint8ClampedArray(),
+		canvas.width,
+		canvas.height
+	);
+	context.putImageData(imageData, 0, 0);
 }
 
 function handlePixelClick(event) {
-  const rect = canvas.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-  const pxWidth = canvas.clientWidth / image.getWidth();
-  const pxHeight = canvas.clientHeight / image.getHeight();
-  return { column: Math.floor(x / pxWidth), row: Math.floor(y / pxHeight) };
+	const rect = canvas.getBoundingClientRect();
+	const x = event.clientX - rect.left;
+	const y = event.clientY - rect.top;
+	const pxWidth = canvas.clientWidth / image.getWidth();
+	const pxHeight = canvas.clientHeight / image.getHeight();
+	return {column: Math.floor(x / pxWidth), row: Math.floor(y / pxHeight)};
 }
