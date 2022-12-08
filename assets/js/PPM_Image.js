@@ -1,5 +1,6 @@
 import PixelArray from "./PixelArray.js";
 import Pixel from "./Pixel.js";
+import selectedPixel from "./selectedPixel.js";
 
 class PPM_Image {
   #fileType = "";
@@ -8,28 +9,19 @@ class PPM_Image {
   #maxColorVal = 0;
   #pixelArrays = [];
   #canvas = null;
+  #colorPicker = null;
 
   constructor(textData) {
-    textData = PPM_Image.removeCommentsAndWhiteSpace(textData);
-    this.#fileType = textData[0];
-    if (this.#fileType !== "P3") alert("Problem");
-    this.#width = textData[1];
-    this.#height = textData[2];
-    this.#maxColorVal = textData[3];
-
-    for (let i = 4; i < textData.length; i += this.#width * 3) {
-      const pixelArray = new PixelArray();
-      for (let j = i; j < this.#width * 3 + i; j += 3) {
-        const r = parseInt(textData[j]);
-        const g = parseInt(textData[j + 1]);
-        const b = parseInt(textData[j + 2]);
-        const pixel = new Pixel(r, g, b);
-        pixelArray.push(pixel);
-      }
-      this.#pixelArrays.push(pixelArray);
-    }
-
-    this.#canvas = document.querySelector("canvas");
+    this.#parse(textData);
+    this.#colorPicker = document.querySelector("input[type=color]");
+    this.#setCanvas();
+    const context = this.#canvas.getContext("2d");
+    this.#colorPicker.addEventListener("change", (e) =>
+      this.#handleColorChange(e, context)
+    );
+    selectedPixel.setDimensions(this.#width, this.#height);
+    this.#draw(context);
+    selectedPixel.updatePosition(0, 0);
   }
 
   static removeCommentsAndWhiteSpace(text) {
@@ -52,8 +44,7 @@ class PPM_Image {
     return this.#pixelArrays[row].getRow()[col];
   }
 
-  updatePixelXY(row, col, pixel) {
-    console.log(this.#pixelArrays[row].getRow()[col]);
+  #updatePixelXY(row, col, pixel) {
     this.#pixelArrays[row].getRow()[col].set(pixel.getColor());
   }
 
@@ -70,6 +61,67 @@ class PPM_Image {
       });
     });
     return new Uint8ClampedArray(array);
+  }
+
+  #parse(text) {
+    text = PPM_Image.removeCommentsAndWhiteSpace(text);
+    this.#fileType = text[0];
+    if (this.#fileType !== "P3") alert("Problem");
+    this.#width = text[1];
+    this.#height = text[2];
+    this.#maxColorVal = text[3];
+
+    for (let i = 4; i < text.length; i += this.#width * 3) {
+      const pixelArray = new PixelArray();
+      for (let j = i; j < this.#width * 3 + i; j += 3) {
+        const r = parseInt(text[j]);
+        const g = parseInt(text[j + 1]);
+        const b = parseInt(text[j + 2]);
+        const pixel = new Pixel(r, g, b);
+        pixelArray.push(pixel);
+      }
+      this.#pixelArrays.push(pixelArray);
+    }
+  }
+
+  #setCanvas() {
+    document.querySelector("canvas")?.remove();
+    const canvas = document.createElement("canvas");
+    document.getElementById("canvas-wrapper").appendChild(canvas);
+    this.#canvas = canvas;
+    this.#canvas.width = this.#width;
+    this.#canvas.height = this.#height;
+    this.#canvas.addEventListener("click", this.#handleCanvasClick);
+  }
+
+  #handleCanvasClick = (event) => {
+    const { row, column } = this.#getPixelIndices(event);
+    selectedPixel.updatePosition(row, column);
+    this.#colorPicker.value = this.getPixel(row, column).getHex();
+  };
+
+  #getPixelIndices({ clientX, clientY }) {
+    const rect = this.#canvas.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    const pxWidth = this.#canvas.clientWidth / this.#width;
+    const pxHeight = this.#canvas.clientHeight / this.#height;
+    return { column: Math.floor(x / pxWidth), row: Math.floor(y / pxHeight) };
+  }
+
+  #draw(context) {
+    const imageData = new ImageData(
+      this.toUint8ClampedArray(),
+      this.#width,
+      this.#height
+    );
+    context.putImageData(imageData, 0, 0);
+  }
+
+  #handleColorChange(event, context) {
+    const { row, column } = selectedPixel.getPosition();
+    this.#updatePixelXY(row, column, Pixel.hexToRgb(event.target.value));
+    this.#draw(context);
   }
 }
 
