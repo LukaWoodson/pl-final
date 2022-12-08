@@ -7,6 +7,7 @@ class PPM_Image {
   #height = 0;
   #maxColorVal = 0;
   #pixelArrays = [];
+  #canvas = null;
 
   constructor(textData) {
     textData = PPM_Image.removeCommentsAndWhiteSpace(textData);
@@ -27,6 +28,8 @@ class PPM_Image {
       }
       this.#pixelArrays.push(pixelArray);
     }
+
+    this.#canvas = document.querySelector("canvas");
   }
 
   static removeCommentsAndWhiteSpace(text) {
@@ -39,6 +42,10 @@ class PPM_Image {
 
   getHeight() {
     return this.#height;
+  }
+
+  getDimensions() {
+    return { width: this.#width, height: this.#height };
   }
 
   getPixel(row, col) {
