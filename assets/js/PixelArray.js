@@ -11,5 +11,3 @@ class PixelArray {
     return this.#row;
   }
 }
-
-export default PixelArray;

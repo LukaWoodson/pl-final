@@ -17,5 +17,3 @@ const selectedPixel = {
     this.boundingRect.style.height = `${100 / height}%`;
   },
 };
-
-export default selectedPixel;

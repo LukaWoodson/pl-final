@@ -1,5 +1,3 @@
-import PPM_Image from "./PPM_Image.js";
-
 const FILE_INPUT = document.querySelector("input[type=file]");
 let image = null;
 

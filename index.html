@@ -4,15 +4,28 @@
 		<meta charset="UTF-8"/>
 		<title>PL- Final | Luka Woodson</title>
 		<link href="./assets/css/styles.css" rel="stylesheet">
-		<script defer src="./assets/js/index.js" type="module"></script>
+		<script defer src="assets/js/selectedPixel.js"></script>
+		<script defer src="assets/js/Pixel.js"></script>
+		<script defer src="assets/js/PixelArray.js"></script>
+		<script defer src="assets/js/PPM_Image.js"></script>
+		<script defer src="./assets/js/index.js"></script>
 	</head>
 	<body>
-		<h1>Programming Languages Final</h1>
-		<input type="file"/>
-		<input type="color">
+		<header>
+			<h1>Programming Languages Final</h1>
+		</header>
+		<div id="input-wrapper">
+			<input type="file"/>
+			<div id="picker">
+				<label for="color-picker">Pixel Color:</label>
+				<input id="color-picker" type="color">
+			</div>
+		</div>
 		<div id="canvas-wrapper" style="display: none;">
 			<div id="selected-pixel"></div>
 		</div>
-		<button id="save">Save File</button>
+		<footer>
+			<button id="save">Save and Download</button>
+		</footer>
 	</body>
 </html>

@@ -1,7 +1,3 @@
-import PixelArray from "./PixelArray.js";
-import Pixel from "./Pixel.js";
-import selectedPixel from "./selectedPixel.js";
-
 class PPM_Image {
   #fileType = "";
   #width = 0;
@@ -27,9 +23,9 @@ class PPM_Image {
     return text.split(/#.*|\s+/g).filter((text) => text !== "");
   }
 
-  #getPixel(row, col) {
+  #getPixel = (row, col) => {
     return this.#pixelArrays[row].getRow()[col];
-  }
+  };
 
   #updatePixelXY(row, col, pixel) {
     this.#pixelArrays[row].getRow()[col].set(pixel.getColor());
@@ -131,5 +127,3 @@ class PPM_Image {
     return text;
   }
 }
-
-export default PPM_Image;

@@ -43,5 +43,3 @@ class Pixel {
     return `#${r}${g}${b}`;
   }
 }
-
-export default Pixel;
