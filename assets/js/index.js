@@ -14,7 +14,7 @@ function handleFile() {
     "load",
     () => {
       image = new PPM_Image(reader.result);
-      updateCanvasWrapperDisplay();
+      updateElementDisplays();
     },
     false
   );
@@ -24,8 +24,10 @@ function handleFile() {
   }
 }
 
-function updateCanvasWrapperDisplay() {
+function updateElementDisplays() {
   document.getElementById("canvas-wrapper").style.display = "flex";
+  document.getElementById('instruction').style.display = 'block';
+  document.getElementById('picker').style.display = 'flex';
 }
 
 // saveFile found here:
