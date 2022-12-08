@@ -41,5 +41,6 @@ canvas {
 	position: absolute;
 	top: 0;
 	left: 0;
-	outline: dimgrey 3px solid;
+	border: dimgrey 7px dashed;
+	box-sizing: border-box;
 }

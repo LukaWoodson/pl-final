@@ -15,12 +15,10 @@ class PPM_Image {
     this.#parse(textData);
     this.#colorPicker = document.querySelector("input[type=color]");
     this.#setCanvas();
-    const context = this.#canvas.getContext("2d");
-    this.#colorPicker.addEventListener("change", (e) =>
-      this.#handleColorChange(e, context)
-    );
+    this.#colorPicker.removeEventListener("change", this.#handleColorChange);
+    this.#colorPicker.addEventListener("change", this.#handleColorChange);
     selectedPixel.setDimensions(this.#width, this.#height);
-    this.#draw(context);
+    this.#draw();
     selectedPixel.updatePosition(0, 0);
   }
 
@@ -45,6 +43,7 @@ class PPM_Image {
   }
 
   #updatePixelXY(row, col, pixel) {
+    console.log(row, col);
     this.#pixelArrays[row].getRow()[col].set(pixel.getColor());
   }
 
@@ -109,19 +108,39 @@ class PPM_Image {
     return { column: Math.floor(x / pxWidth), row: Math.floor(y / pxHeight) };
   }
 
-  #draw(context) {
+  #draw() {
     const imageData = new ImageData(
       this.toUint8ClampedArray(),
       this.#width,
       this.#height
     );
+    const context = this.#canvas.getContext("2d");
     context.putImageData(imageData, 0, 0);
   }
 
-  #handleColorChange(event, context) {
+  #handleColorChange = (event) => {
     const { row, column } = selectedPixel.getPosition();
     this.#updatePixelXY(row, column, Pixel.hexToRgb(event.target.value));
-    this.#draw(context);
+    this.#draw();
+  };
+
+  getText() {
+    let text =
+      this.#fileType +
+      "\n" +
+      this.#width +
+      " " +
+      this.#height +
+      "\n" +
+      this.#maxColorVal;
+    for (let row of this.#pixelArrays) {
+      let rowArray = row.getRow();
+      for (let i = 0; i < rowArray.length; i++) {
+        const { r, g, b } = rowArray[i].getColor();
+        text += "\n" + r + " " + g + " " + b;
+      }
+    }
+    return text;
   }
 }
 
