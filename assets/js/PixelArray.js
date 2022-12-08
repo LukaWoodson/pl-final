@@ -10,10 +10,6 @@ class PixelArray {
   getRow() {
     return this.#row;
   }
-
-  setRow(row) {
-    this.#row = row.map((row) => row);
-  }
 }
 
 export default PixelArray;

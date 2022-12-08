@@ -14,6 +14,7 @@ class PPM_Image {
   constructor(textData) {
     this.#parse(textData);
     this.#colorPicker = document.querySelector("input[type=color]");
+    this.#colorPicker.value = this.#getPixel(0, 0).getHex();
     this.#setCanvas();
     this.#colorPicker.removeEventListener("change", this.#handleColorChange);
     this.#colorPicker.addEventListener("change", this.#handleColorChange);
@@ -26,24 +27,11 @@ class PPM_Image {
     return text.split(/#.*|\s+/g).filter((text) => text !== "");
   }
 
-  getWidth() {
-    return this.#width;
-  }
-
-  getHeight() {
-    return this.#height;
-  }
-
-  getDimensions() {
-    return { width: this.#width, height: this.#height };
-  }
-
-  getPixel(row, col) {
+  #getPixel(row, col) {
     return this.#pixelArrays[row].getRow()[col];
   }
 
   #updatePixelXY(row, col, pixel) {
-    console.log(row, col);
     this.#pixelArrays[row].getRow()[col].set(pixel.getColor());
   }
 
@@ -96,7 +84,7 @@ class PPM_Image {
   #handleCanvasClick = (event) => {
     const { row, column } = this.#getPixelIndices(event);
     selectedPixel.updatePosition(row, column);
-    this.#colorPicker.value = this.getPixel(row, column).getHex();
+    this.#colorPicker.value = this.#getPixel(row, column).getHex();
   };
 
   #getPixelIndices({ clientX, clientY }) {
