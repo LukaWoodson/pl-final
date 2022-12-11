@@ -78,6 +78,7 @@ input[type=file] {
 	font-weight: bold;
 	font-size: large;
 	padding: 2vh;
+	color: rgba(0, 0, 0, 0)
 }
 
 input::file-selector-button {

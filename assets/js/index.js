@@ -33,6 +33,7 @@ function updateElementDisplays() {
   document.getElementById("instruction").style.display = "block";
   document.getElementById("note").style.display = "block";
   document.getElementById("picker").style.display = "flex";
+  document.getElementById("save").style.opacity = "1";
 }
 
 // saveFile found here:

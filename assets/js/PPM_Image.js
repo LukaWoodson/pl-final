@@ -49,7 +49,7 @@ class PPM_Image {
   #parse(text) {
     text = PPM_Image.removeCommentsAndWhiteSpace(text);
     this.#fileType = text[0];
-    if (this.#fileType !== "P3") alert("Problem");
+    if (this.#fileType !== "P3") alert("File type is not P3");
     this.#width = text[1];
     this.#height = text[2];
     this.#maxColorVal = text[3];
