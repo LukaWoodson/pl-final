@@ -31,22 +31,54 @@ h1 {
 	text-shadow: -2px 3px 5px black;
 }
 
-#instruction {
-	font-size: xx-large;
-	font-weight: bold;
-	color: #000000;
-	text-shadow: -2px 2px 4px #00acaf;
-	text-align: center;
-	margin-top: -8rem;
+#modal-wrapper {
+	background-color: rgba(0, 0, 0, 0.6);
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-#note {
-	font-size: x-large;
+#modal {
+	background-color: #dcdcdc;
+	box-sizing: border-box;
+	padding: 2rem;
+	z-index: 100;
+	flex-direction: column;
+	display: flex;
+	border-radius: .3rem;
+	align-items: flex-end;
+}
+
+#close-modal {
+	outline: none;
+	border: none;
+	background-color: transparent;
+	position: relative;
+	top: -0.5rem;
+	right: -0.5rem;
+	font-weight: bolder;
+	font-size: large;
+	text-shadow: -1px 1px 2px #00acaf;
+}
+
+#close-modal:hover {
+	color: #ea0000;
+	text-shadow: -1px 1px 2px #5d0200;
+}
+
+#instruction, #note {
+	font-size: medium;
 	font-weight: bold;
 	color: #000000;
-	text-shadow: -2px 2px 4px #00acaf;
+	text-shadow: -1px 1px 2px #00acaf;
 	text-align: center;
-	margin: -6.5rem auto;
+	align-self: center;
+	margin-top: 1rem;
 }
 
 #canvas-wrapper {

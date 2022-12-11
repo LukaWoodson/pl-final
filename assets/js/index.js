@@ -1,5 +1,8 @@
 const FILE_INPUT = document.querySelector("input[type=file]");
 let image = null;
+let firstTime = true;
+
+document.getElementById("close-modal").addEventListener("click", closeModal);
 
 FILE_INPUT.addEventListener("change", handleFile);
 document.getElementById("save").addEventListener("click", () => {
@@ -30,10 +33,12 @@ function handleFile() {
 
 function updateElementDisplays() {
   document.getElementById("canvas-wrapper").style.display = "flex";
-  document.getElementById("instruction").style.display = "block";
-  document.getElementById("note").style.display = "block";
   document.getElementById("picker").style.display = "flex";
   document.getElementById("save").style.opacity = "1";
+  if (firstTime) {
+    document.getElementById("modal-wrapper").style.display = "flex";
+    firstTime = false;
+  }
 }
 
 // saveFile found here:
@@ -51,4 +56,9 @@ function saveFile(fileName, text) {
 
   element.click();
   document.body.removeChild(element);
+}
+
+function closeModal() {
+  console.log("i ran");
+  document.getElementById("modal-wrapper").style.display = "none";
 }
