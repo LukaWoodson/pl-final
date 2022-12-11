@@ -26,7 +26,7 @@ class Pixel {
       : null;
   }
 
-  set({ r, g, b }) {
+  setColor({ r, g, b }) {
     this.#r = r;
     this.#g = g;
     this.#b = b;

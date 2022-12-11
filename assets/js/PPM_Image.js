@@ -28,7 +28,7 @@ class PPM_Image {
   };
 
   #updatePixelXY(row, col, pixel) {
-    this.#pixelArrays[row].getRow()[col].set(pixel.getColor());
+    this.#pixelArrays[row].getRow()[col].setColor(pixel.getColor());
   }
 
   toUint8ClampedArray() {

@@ -59,6 +59,5 @@ function saveFile(fileName, text) {
 }
 
 function closeModal() {
-  console.log("i ran");
   document.getElementById("modal-wrapper").style.display = "none";
 }
