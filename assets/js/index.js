@@ -7,27 +7,32 @@ document.getElementById("save").addEventListener("click", () => {
 });
 
 function handleFile() {
-  const [file] = FILE_INPUT.files;
-  const reader = new FileReader();
+  try {
+    const [file] = FILE_INPUT.files;
+    const reader = new FileReader();
 
-  reader.addEventListener(
-    "load",
-    () => {
-      image = new PPM_Image(reader.result);
-      updateElementDisplays();
-    },
-    false
-  );
+    reader.addEventListener(
+      "load",
+      () => {
+        image = new PPM_Image(reader.result);
+        updateElementDisplays();
+      },
+      false
+    );
 
-  if (file) {
-    reader.readAsText(file);
+    if (file) {
+      reader.readAsText(file);
+    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
 function updateElementDisplays() {
   document.getElementById("canvas-wrapper").style.display = "flex";
-  document.getElementById('instruction').style.display = 'block';
-  document.getElementById('picker').style.display = 'flex';
+  document.getElementById("instruction").style.display = "block";
+  document.getElementById("note").style.display = "block";
+  document.getElementById("picker").style.display = "flex";
 }
 
 // saveFile found here:
